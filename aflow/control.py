@@ -205,11 +205,15 @@ class Query(object):
                 if self.order.name in selects:
                     idx = selects.index(self.order.name)
                     self.selects.pop(idx)
-
-            items.extend(list(map(str, self.selects)))
+            list1=list(map(str, self.selects))
+            list1 = [s.replace("'", "") if "spec" in s else s for s in list1]
+            items.extend(list1)
+            #print(items)
+            
             items.extend(list(map(str, self.filters)))
             items.extend(["${}".format(str(k)) for k in self.excludes]) 
             self._matchbook = ','.join(items)
+            
 
         return self._matchbook
 
